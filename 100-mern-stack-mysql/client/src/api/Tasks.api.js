@@ -6,5 +6,5 @@ export const getTasksRequest = async () =>
 export const createTaskRequest = async (task) =>
   await axios.post('http://localhost:3500/tasks', task)
 
-export const deleteTask = async (id) =>
+export const deleteTaskRequest = async (id) =>
   await axios.delete(`http://localhost:3500/tasks/${id}`)

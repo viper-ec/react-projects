@@ -1,15 +1,11 @@
-import { useEffect, useState } from 'react'
-import { getTasksRequest } from '../api/Tasks.api.js'
+import { useEffect } from 'react'
+import { useTasks } from '../context/TaskProvider'
 import TaskCard from '../components/TaskCard.jsx'
 
 export default function TaskPage() {
-  const [tasks, setTasks] = useState([])
+  const { tasks, loadTasks } = useTasks()
 
   useEffect(() => {
-    async function loadTasks() {
-      const response = await getTasksRequest()
-      setTasks(response.data)
-    }
     loadTasks()
   }, [])
 
