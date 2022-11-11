@@ -6,7 +6,7 @@ import { pool } from '../db.js'
 export const getTasks = async (req, res) => {
   try {
     const [result] = await pool.query(
-      'select id, title, description, done, createdAt from tasks order by createdAt',
+      'select id, title, description, done, createdAt from tasks order by createdAt desc',
     )
     res.json(result)
   } catch (ex) {
@@ -54,25 +54,13 @@ export const createTask = async (req, res) => {
 // DELETE: /tasks/1
 export const updateTask = async (req, res) => {
   try {
-    const { id, title, description, done } = req.body
-
-    if (req.params.id != id) {
-      return res.status(400).json({ message: 'Bad request' })
-    }
-
-    const [
-      result,
-    ] = await pool.query(
-      'update tasks set title = ?, description = ?, done = ? where id = ?',
-      [title, description, done, req.params.id],
-    )
-
-    if (result.affectedRows === 0)
-      return res.status(404).json({ message: 'Task not found' })
-
-    return res.sendStatus(204)
-  } catch (ex) {
-    return res.status(500).json({ message: ex.message })
+    const result = await pool.query('UPDATE tasks SET ? WHERE id = ?', [
+      req.body,
+      req.params.id,
+    ])
+    res.json(result)
+  } catch (error) {
+    return res.status(500).json({ message: error.message })
   }
 }
 

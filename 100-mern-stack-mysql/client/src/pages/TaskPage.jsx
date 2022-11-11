@@ -3,10 +3,10 @@ import { useTasks } from '../context/TaskProvider'
 import TaskCard from '../components/TaskCard.jsx'
 
 export default function TaskPage() {
-  const { tasks, loadTasks } = useTasks()
+  const { tasks, getTasks } = useTasks()
 
   useEffect(() => {
-    loadTasks()
+    getTasks()
   }, [])
 
   function renderMain() {
