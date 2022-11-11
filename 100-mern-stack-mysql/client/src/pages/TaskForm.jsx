@@ -30,48 +30,52 @@ export default function TaskForm() {
 
   return (
     <div>
-      <h2>{params.id ? 'Edit Task' : 'New Task'}</h2>
       <Formik
         initialValues={task}
         enableReinitialize={true}
         onSubmit={async (values, actions) => {
           if (!params.id) {
             await createTask(values)
-            actions.resetForm()
           } else {
             await updateTask(params.id, values)
-            navigate('/')
           }
+          //actions.resetForm()
+          navigate('/')
         }}
       >
         {({ handleChange, handleSubmit, values, isSubmitting }) => (
-          <Form onSubmit={handleSubmit}>
-            <div>
-              <label>Title</label>
-              <Field
-                name="title"
-                placeholder="Write a title"
-                onChange={handleChange}
-                value={values.title}
-              />
-            </div>
-
-            <div>
-              <label>Description</label>
-              <Field
-                as="textarea"
-                name="description"
-                rows="3"
-                placeholder="Write a description"
-                onChange={handleChange}
-                value={values.description}
-              />
-            </div>
-            <div>
-              <button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Saving...' : 'Save'}
-              </button>
-            </div>
+          <Form
+            onSubmit={handleSubmit}
+            className="bg-slate-300 max-w-sm rounded-md p-4 mx-auto mt-10"
+          >
+            <h1 className="text-xl font-bold uppercase text-center">
+              {params.id ? 'Edit Task' : 'New Task'}
+            </h1>
+            <label className="block">Title</label>
+            <Field
+              name="title"
+              placeholder="Write a title"
+              onChange={handleChange}
+              value={values.title}
+              className="px-2 py-1 rounded-sm w-full"
+            />
+            <label className="block">Description</label>
+            <Field
+              as="textarea"
+              name="description"
+              rows="3"
+              placeholder="Write a description"
+              onChange={handleChange}
+              value={values.description}
+              className="px-2 py-1 rounded-sm w-full"
+            />
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="block bg-indigo-500 px-2 py-1 text-white rounded-md w-full"
+            >
+              {isSubmitting ? 'Saving...' : 'Save'}
+            </button>
           </Form>
         )}
       </Formik>
